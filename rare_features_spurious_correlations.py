@@ -18,3 +18,33 @@ train_images_with_zeros_channels = np.concenate(
     [train_images, np.zeros((len(train_images), 784))],
     axis=1
 )
+
+# training with previous model
+from tensorflow import keras
+from tensorflow.keras import layers
+
+def get_model():
+    model = keras.Sequential([
+        layers.Dense(512, activation="relu"),
+        layers.Dense(10, activation="softmax")
+    ])
+    model.compile(optimizer="rmsprop",
+                  loss="sparse_categorical_crossentropy",
+                  metrics=["accuracy"])
+    return model
+
+model = get_model()
+history_noise = model.fit(
+    train_images_with_noise_channels, train_labels,
+    epochs=10,
+    batch_size=128,
+    validation_split=0.2
+)
+
+model = get_model()
+history_zeros = model.fit(
+    train_images_with_zeros_channels, train_labels,
+    epochs=10,
+    batch_size=128,
+    validation_split=0.2
+)
