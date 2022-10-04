@@ -28,7 +28,9 @@ from tensorflow.keras import layers
 
 model = keras.Sequential([
     layers.Dense(16, activation="relu"),
+    layers.Dropout(0.5),
     layers.Dense(16, activation="relu"),
+    layers.Dropout(0.5),
     layers.Dense(1, activation="sigmoid")
 ])
 
@@ -38,6 +40,13 @@ model.compile(optimizer="rmsprop",
               loss="binary_crossentropy",
               metrics=["accuracy"])
 
+history_dropout = model.fit(
+    train_data, train_labels,
+    epochs=20, batch_size=512,
+    validation_split=0.4
+)
+
+# plotting with dropout leads to ideal epochs of around 7
 
 # setting aside validation set
 x_val = x_train[:10000]
@@ -49,7 +58,7 @@ partial_y_train = y_train[10000:]
 # training the model
 history = model.fit(partial_x_train,
                     partial_y_train,
-                    epochs=4,
+                    epochs=7,
                     batch_size=512,
                     validation_data=(x_val, y_val))
 
