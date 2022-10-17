@@ -20,3 +20,14 @@ class CustomModel(keras.Model):
     @property
     def metrics(self):
         return [loss_tracker]
+
+
+# driver code
+inputs = keras.Input(shape=(28 * 28,))
+features = layers.Dense(512, activation="relu")(inputs)
+features = layers.Dropout(0.5)(features)
+outputs = layers.Dense(10, activation="softmax")(features)
+
+model = CustomModel(inputs, outputs)
+model.compile(optimizer=keras.optimizers.RMSprop)
+model.fit(train_images, train_labels, epochs=3)
