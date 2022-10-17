@@ -8,14 +8,14 @@ class CustomModel(keras.Model):
         inputs, targets = data
         with tf.GradientTape() as tape:
             predictions = self(inputs, training=True)
-            loss = loss_fn(targets, predictions)
+            loss = self.compiled_loss(targets, predictions)
 
         gradients = tape.gradient(loss, model.trainable_weights)
 
         optimizer.apply_gradients(zip(gradients, model.trainable_weights))
 
-        loss_tracker.update_state(loss)
-        return {"loss": loss_tracker.result()}
+        self.compiled_metrics.update_state(targets, predictions)
+        return {m.name: m.result() for m in self.metrics}
 
     @property
     def metrics(self):
