@@ -29,5 +29,7 @@ features = layers.Dropout(0.5)(features)
 outputs = layers.Dense(10, activation="softmax")(features)
 
 model = CustomModel(inputs, outputs)
-model.compile(optimizer=keras.optimizers.RMSprop)
+model.compile(optimizer=keras.optimizers.RMSprop(),
+              loss = keras.losses.SparseCategoricalCrossentropy(),
+              metrics = [keras.metrics.SparseCategoricalAccuracy()])
 model.fit(train_images, train_labels, epochs=3)
