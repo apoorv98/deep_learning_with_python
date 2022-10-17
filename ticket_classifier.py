@@ -113,6 +113,9 @@ for epoch in range(epochs):
 
 
 # and finally the evaluation loop which is just part of training loop defined above
+# adding tf.function decorator to speed up
+
+@tf.function
 def test_step(inputs, targets):
     predictions = model(inputs, training=False)
     loss = loss_fn(targets, predictions)
