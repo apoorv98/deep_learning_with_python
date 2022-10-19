@@ -35,3 +35,14 @@ class RootMeanSquaredError(keras.metrics.Metric):
        across both training and evaluation"""
        self.mse_sum.assign(0.)
        self.total_samples.assign(0)
+
+
+# driver code
+model = get_mnist_model()
+model.compile(optimizer="rsmprop",
+              loss="sparse_categorical_crossentropy",
+              metrics=["accuracy", RootMeanSquaredError()])
+model.fit(train_images, train_labels,
+          epochs=3,
+          validation_data=(val_images, val_labels))
+test_metrics = model.evaluate(test_images, test_labels)
