@@ -19,6 +19,7 @@ tags = keras.Input(shape=(num_tags,), name="tags")
 # combine input features into a single tensor, by concatenating them
 features = layers.Concatenate()([title, text_body, tags])
 # apply intermediate layer to get richer representations
+# TODO (learn about these richer representations)
 features = layers.Dense(64, activation="relu")(features)
 
 # define model outputs
