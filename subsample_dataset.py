@@ -42,3 +42,8 @@ x = layers.Flatten()(x)
 outputs = layers.Dense(1, activation="sigmoid")(x)
 
 model = keras.Model(inputs=inputs, outputs=outputs)
+
+# configuring model for training
+model.compile(loss="binary_crossentropy",
+              optimizer="rmsprop",
+              metrics=["accuracy"])
