@@ -67,3 +67,44 @@ test_dataset = image_dataset_from_directory(
     image_size=(180, 180),
     batch_size=32
 )
+
+
+# displaying shapes of data and labels yielded
+for data_batch, labels_batch in train_dataset:
+    print("data batch shape:", data_batch.shape)
+    print("labels batch shape:", labels_batch.shape)
+    break
+
+
+# fitting model using Dataset
+callbacks = [
+    keras.callbacks.ModelCheckpoint(
+        filepath="convnet_from_scratch.keras",
+        save_best_only=True,
+        monitor="val_loss"
+    )
+]
+history = model.fit(
+    train_dataset,
+    epochs=30,
+    validation_data=validation_dataset,
+    callbacks=callbacks
+)
+
+# displaying curves of loss and accuracy during training
+import matplotlib.pyplot as plt
+accuracy = history.history["accuracy"]
+val_accuracy = history.history["val_accuracy"]
+loss = history.history["loss"]
+val_loss = history.history["val_loss"]
+epochs = range(1, len(accuracy) + 1)
+plt.plot(epochs, accuracy, "bo", label="Training accuracy")
+plt.plot(epochs, val_accuracy, "b", label="Validation accuracy")
+plt.title("Training and validation accuracy")
+plt.legend()
+plt.figure()
+plt.plot(epochs, loss, "bo", label="Training loss")
+plt.plot(epochs, val_loss, "b", label="Validation loss")
+plt.title("Training and validation loss")
+plt.legend()
+plt.figure()
