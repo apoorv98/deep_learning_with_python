@@ -90,14 +90,14 @@ for data_batch, labels_batch in train_dataset:
 # fitting model using Dataset
 callbacks = [
     keras.callbacks.ModelCheckpoint(
-        filepath="convnet_from_scratch.keras",
+        filepath="convnet_from_scratch_with_augmentation.keras",
         save_best_only=True,
         monitor="val_loss"
     )
 ]
 history = model.fit(
     train_dataset,
-    epochs=30,
+    epochs=100,
     validation_data=validation_dataset,
     callbacks=callbacks
 )
@@ -122,6 +122,6 @@ plt.figure()
 
 
 # evaluating the model on test set
-test_model = keras.models.load_model("convert_from_scratch.keras")
+test_model = keras.models.load_model("convnet_from_scratch_with_augmentation.keras")
 test_loss, test_acc = test_model.evaluate(test_dataset)
 print(f"Test accuracy: {test_acc:.3f}")
