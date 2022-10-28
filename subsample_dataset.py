@@ -108,3 +108,9 @@ plt.plot(epochs, val_loss, "b", label="Validation loss")
 plt.title("Training and validation loss")
 plt.legend()
 plt.figure()
+
+
+# evaluating the model on test set
+test_model = keras.models.load_model("convert_from_scratch.keras")
+test_loss, test_acc = test_model.evaluate(test_dataset)
+print(f"Test accuracy: {test_acc:.3f}")
